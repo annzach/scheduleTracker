@@ -1,6 +1,7 @@
 const React = require('react');
 const TrackerForm = require('./TrackerForm');
 const TrackerTable = require('./TrackerTable');
+const Storage = require('./Storage');
 
 const App = React.createClass({ 
 getInitialState(){
@@ -9,24 +10,16 @@ getInitialState(){
   }
 
 },
-componentWillMount(){
-  const serializedData = localStorage.schedules;
-  let localStorageSchedules;
-  try{
-    localStorageSchedules = JSON.parse(serializedData);
-    console.log("schedules localStorage",localStorageSchedules);
-    this.setState({schedules:localStorageSchedules});
-  }
-  catch(err){
+componentDidMount(){
+  console.log("Storage:",Storage);
+  let localStorageSchedules = Storage.default.read();
+  console.log("local",localStorageSchedules)
+  this.setState({schedules:localStorageSchedules});
 
-  }
 
 },
 componentWillUpdate(nextProps,nextState){
-  const serializedData =  JSON.stringify(nextState.schedules);
-  localStorage.schedules = serializedData;
-
-
+ Storage.write;
 },
 
 addSchedule(newSchedule){
